@@ -41,6 +41,7 @@ add_executable(${project_name}-test
 )
 
 target_link_libraries(${project_name}-test ${project_name}-lib)
+target_include_directories(${project_name}-test PRIVATE test)
 add_dependencies(${project_name}-test ${project_name}-lib)
 
 set_target_properties(${project_name}-lib ${project_name}-exe ${project_name}-test PROPERTIES
