@@ -44,3 +44,9 @@ cmake-build-debug/
 
 **/.DS_Store
 
+# VS Code
+.vscode/
+
+# CMake compile commands
+compile_commands.json
+
