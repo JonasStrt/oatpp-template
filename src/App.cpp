@@ -1,5 +1,6 @@
 #include "./controller/MyController.hpp"
 #include "./AppComponent.hpp"
+#include "./controller/MyAuthController.hpp"
 
 #include "oatpp/network/Server.hpp"
 
@@ -13,8 +14,11 @@ void run() {
   /* Get router component */
   OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router);
 
+  OATPP_COMPONENT(std::shared_ptr<oatpp::web::mime::ContentMappers>, mappers);
+
   /* Create MyController and add all of its endpoints to router */
-  router->addController(std::make_shared<MyController>());
+  router->addController(std::make_shared<MyController>(mappers));
+   router->addController(std::make_shared<MyAuthController>(mappers));
 
   /* Get connection handler component */
   OATPP_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, connectionHandler);
@@ -40,7 +44,11 @@ int main(int argc, const char * argv[]) {
 
   oatpp::Environment::init();
 
-  run();
+  try {
+    run();
+  } catch (const std::exception& e) {
+    OATPP_LOGE("MyApp", "Fatal: %s", e.what());
+  }
   
   /* Print how much objects were created during app running, and what have left-probably leaked */
   /* Disable object counting for release builds using '-D OATPP_DISABLE_ENV_OBJECT_COUNTERS' flag for better performance */

@@ -9,6 +9,10 @@
 
 #include "oatpp/macro/component.hpp"
 
+#include "./auth/AuthConfig.hpp"
+#include "./auth/JwtVerifier.hpp"
+#include "./auth/AuthInterceptor.hpp"
+
 /**
  *  Class which creates and holds Application components and registers components in oatpp::base::Environment
  *  Order of components initialization is from top to bottom
@@ -29,13 +33,33 @@ public:
   OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, httpRouter)([] {
     return oatpp::web::server::HttpRouter::createShared();
   }());
+
+  // AuthConfig aus ENV (fail-fast, wenn Pflichtfelder fehlen)
+  OATPP_CREATE_COMPONENT(std::shared_ptr<AuthConfig>, authConfig)([] {
+    auto cfg = AuthConfig::fromEnv();
+    if (cfg->issuer.empty() || cfg->jwksUrl.empty()) {
+      OATPP_LOGE("AuthConfig", "Missing KEYCLOAK_ISSUER or KEYCLOAK_JWKS_URL");
+      throw std::runtime_error("AuthConfig invalid");
+    }
+    return cfg;
+  }());
+
+  // JwtVerifier
+  OATPP_CREATE_COMPONENT(std::shared_ptr<JwtVerifier>, jwtVerifier)([] {
+    OATPP_COMPONENT(std::shared_ptr<AuthConfig>, cfg);
+    return std::make_shared<JwtVerifier>(cfg);
+  }());
   
   /**
    *  Create ConnectionHandler component which uses Router component to route requests
    */
   OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, serverConnectionHandler)([] {
     OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router); // get Router component
-    return oatpp::web::server::HttpConnectionHandler::createShared(router);
+    auto h = oatpp::web::server::HttpConnectionHandler::createShared(router);
+
+    OATPP_COMPONENT(std::shared_ptr<JwtVerifier>, verifier);
+    h->addRequestInterceptor(std::make_shared<AuthInterceptor>(verifier));
+    return std::static_pointer_cast<oatpp::network::ConnectionHandler>(h);
   }());
   
   /**

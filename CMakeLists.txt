@@ -16,10 +16,15 @@ add_library(${project_name}-lib
 ## link libs
 
 find_package(oatpp 1.4.0 REQUIRED)
+find_package(OpenSSL REQUIRED)
+find_package(CURL REQUIRED)
 
 target_link_libraries(${project_name}-lib
         PUBLIC oatpp::oatpp
         PUBLIC oatpp::oatpp-test
+        PUBLIC OpenSSL::SSL
+        PUBLIC OpenSSL::Crypto
+        PUBLIC CURL::libcurl
 )
 
 target_include_directories(${project_name}-lib PUBLIC src)
