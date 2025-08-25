@@ -19,6 +19,8 @@ add_library(${project_name}-lib
         src/dto/DTOs.hpp
         src/model/Student.cpp
         src/model/Student.hpp
+        src/model/TestCode.cpp
+        src/model/TestCode.hpp
 )
 
 ## link libs
@@ -55,7 +57,10 @@ add_executable(${project_name}-test
         test/app/MyApiTestClient.hpp
         test/MyControllerTest.cpp
         test/MyControllerTest.hpp
+        test/StudentTest.cpp
         test/StudentTest.hpp
+        test/TestCodeTest.cpp
+        test/TestCodeTest.hpp
 )
 
 target_link_libraries(${project_name}-test ${project_name}-lib)
