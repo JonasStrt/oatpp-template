@@ -16,10 +16,11 @@ public:
   explicit JwtVerifier(std::shared_ptr<AuthConfig> cfg)
     : cfg_(std::move(cfg)), jwks_(cfg_->jwksUrl) {}
 
-  jwt::decoded_jwt<> verify(const std::string& token) {
-    auto decoded = jwt::decode(token);
+  jwt::decoded_jwt<jwt::traits::kazuho_picojson> verify(const std::string& token) {
+    auto decoded = jwt::decode<jwt::traits::kazuho_picojson>(token);
 
-    const auto kid = decoded.get_key_id().value_or("");
+    auto kid_header = decoded.get_key_id();
+    const auto kid = kid_header.empty() ? "" : kid_header;
     if (kid.empty()) throw std::runtime_error("missing kid");
 
     const auto [n_b64u, e_b64u] = jwks_.getNE(kid, cfg_->jwksCacheMinutes);

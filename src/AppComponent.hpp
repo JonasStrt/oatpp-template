@@ -38,7 +38,7 @@ public:
   OATPP_CREATE_COMPONENT(std::shared_ptr<AuthConfig>, authConfig)([] {
     auto cfg = AuthConfig::fromEnv();
     if (cfg->issuer.empty() || cfg->jwksUrl.empty()) {
-      OATPP_LOGE("AuthConfig", "Missing KEYCLOAK_ISSUER or KEYCLOAK_JWKS_URL");
+      OATPP_LOGe("AuthConfig", "Missing KEYCLOAK_ISSUER or KEYCLOAK_JWKS_URL");
       throw std::runtime_error("AuthConfig invalid");
     }
     return cfg;

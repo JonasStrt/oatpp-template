@@ -10,7 +10,15 @@ add_library(${project_name}-lib
         src/AppComponent.hpp
         src/controller/MyController.cpp
         src/controller/MyController.hpp
+        src/controller/MyAuthController.cpp
+        src/controller/MyAuthController.hpp
+        src/auth/AuthConfig.hpp
+        src/auth/AuthInterceptor.hpp
+        src/auth/JwksCache.hpp
+        src/auth/JwtVerifier.hpp
         src/dto/DTOs.hpp
+        src/model/Student.cpp
+        src/model/Student.hpp
 )
 
 ## link libs
@@ -18,6 +26,8 @@ add_library(${project_name}-lib
 find_package(oatpp 1.4.0 REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(CURL REQUIRED)
+find_package(nlohmann_json REQUIRED)
+find_package(jwt-cpp REQUIRED)
 
 target_link_libraries(${project_name}-lib
         PUBLIC oatpp::oatpp
@@ -25,6 +35,8 @@ target_link_libraries(${project_name}-lib
         PUBLIC OpenSSL::SSL
         PUBLIC OpenSSL::Crypto
         PUBLIC CURL::libcurl
+        PUBLIC nlohmann_json::nlohmann_json
+        PUBLIC jwt-cpp::jwt-cpp
 )
 
 target_include_directories(${project_name}-lib PUBLIC src)
@@ -43,6 +55,7 @@ add_executable(${project_name}-test
         test/app/MyApiTestClient.hpp
         test/MyControllerTest.cpp
         test/MyControllerTest.hpp
+        test/StudentTest.hpp
 )
 
 target_link_libraries(${project_name}-test ${project_name}-lib)

@@ -21,7 +21,7 @@ class AuthInterceptor : public oatpp::web::server::interceptor::RequestIntercept
   }
   static std::string getBearer(const oatpp::String& header) {
     if (!header) return {};
-    const auto s = header->std_str();
+    const std::string s = header->c_str();
     const auto sp = s.find(' ');
     if (sp == std::string::npos) return {};
     auto scheme = s.substr(0, sp);

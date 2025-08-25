@@ -23,14 +23,14 @@ public:
   {}
 public:
 
-  ENDPOINT("GET", "/api/public/ping", root) {
+  ENDPOINT("GET", "/api/public/ping", publicPing) {
     auto dto = MyDto::createShared();
     dto->statusCode = 200;
     dto->message = "Hello World!";
     return createDtoResponse(Status::CODE_200, dto);
   }
 
-    ENDPOINT("GET", "/api/secure/ping", root) {
+    ENDPOINT("GET", "/api/secure/ping", securePing) {
     auto dto = MyDto::createShared();
     dto->statusCode = 200;
     dto->message = "Hello World!";

@@ -1,0 +1,33 @@
+#Build Ordner löschen:
+rm -rf build
+---------------------
+rm = remove
+-r = rekursiv (ganzen Ordner + Unterordner löschen)
+-f = force (kein Nachfragen bei jedem File)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#Neuen Build-Ordner anlegen
+mkdir build
+cd build
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#CMake-Konfiguration starten
+cmake -S .. -B . -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+----------------------------------------------------------------------------
+-S .. → Source-Code liegt im übergeordneten Verzeichnis (..)
+-B . → Build-Ordner ist der aktuelle Ordner (.)
+-DCMAKE_BUILD_TYPE=Debug → wir wollen erstmal eine Debug-Build (praktisch zum Testen)
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON → erzeugt compile_commands.json für VS Code/Linter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#Bauen (kompilieren)
+cmake --build . -- -j
+---------------------------
+-- -j → kompiliert parallel mit allen verfügbaren CPU-Kernen.
+(Wenn du magst: -j4 für 4 Threads etc.)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#Ausführen
+./App
+./my-project-test 
+./my-project-exe  

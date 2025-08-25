@@ -1,10 +1,14 @@
 
 #include "MyControllerTest.hpp"
+#include "StudentTest.hpp"
 
 #include <iostream>
 
 void runTests() {
   OATPP_RUN_TEST(MyControllerTest);
+  
+  // Unser neuer Student Test
+  runStudentTests();
 }
 
 int main() {

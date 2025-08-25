@@ -47,7 +47,7 @@ int main(int argc, const char * argv[]) {
   try {
     run();
   } catch (const std::exception& e) {
-    OATPP_LOGE("MyApp", "Fatal: %s", e.what());
+    OATPP_LOGe("MyApp", "Fatal: %s", e.what());
   }
   
   /* Print how much objects were created during app running, and what have left-probably leaked */
