@@ -14,6 +14,7 @@ private:
 
 public:
    void addToArray(int*& array, size_t& length, int value);
+   void floatToBinary(float* f);
 };
 
 } 

@@ -22,6 +22,7 @@ public:
 private:
     // Private Test-Methoden für bessere Organisation
     void testAddToArray();
+    void testFloatToBinary();
     // Hier kannst du weitere Test-Methoden hinzufügen
 };
 

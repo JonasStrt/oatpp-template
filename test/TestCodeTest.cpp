@@ -6,6 +6,7 @@
 
 void TestCodeTest::onRun() {
     testAddToArray();
+    testFloatToBinary();
     // Hier kannst du weitere Test-Aufrufe hinzufügen
 }
 
@@ -59,4 +60,13 @@ void TestCodeTest::testAddToArray() {
     delete[] array;
     
     std::cout << "✓ addToArray Test erfolgreich abgeschlossen!" << std::endl;
+}
+
+/**
+ * Test 1: addToArray Funktion testen
+ */
+void TestCodeTest::testFloatToBinary() {
+    model::TestCode testcode;
+    float f = 3;
+    testcode.floatToBinary(&f);
 }
